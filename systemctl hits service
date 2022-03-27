@@ -1,0 +1,17 @@
+[Unit]
+Description=HITSSERVICE
+Requires=docker.service
+After=docker.service
+[Service]
+Restart=always
+User=root
+Group=docker
+WorkingDirectory=/home/maormalca/hits_redis
+# Shutdown container (if running) when unit is started
+ExecStartPre=/bin/bash -c 'docker-compose -f docker-compose.yml down'
+# Start container when unit is started
+ExecStart=/bin/bash -c 'docker-compose -f docker-compose.yml up'
+# Stop container when unit is stopped
+ExecStop=/bin/bash -c 'docker-compose -f docker-compose.yml down'
+[Install]
+WantedBy=multi-user.target
